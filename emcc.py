@@ -1287,12 +1287,9 @@ def phase_setup(options, state, newargs, settings_map):
   state.compile_only = state.has_dash_c or state.has_dash_S or state.has_header_inputs or state.preprocess_only
 
   if state.compile_only:
-    # TODO(sbc): Re-enable these warnings once we are sure we don't have any false
-    # positives.  See: https://github.com/emscripten-core/emscripten/pull/14109
-    pass
-    # for key in settings_map:
-    #   if key not in COMPILE_TIME_SETTINGS:
-    #     diagnostics.warning('unused-command-line-argument', "linker setting ignored during compilation: '%s'" % key)
+    for key in settings_map:
+       if key not in COMPILE_TIME_SETTINGS:
+         diagnostics.warning('unused-command-line-argument', "linker setting ignored during compilation: '%s'" % key)
 
   if state.has_dash_c or state.has_dash_S or state.has_dash_E or '-M' in newargs or '-MM' in newargs:
     if state.has_dash_c:

@@ -10484,3 +10484,7 @@ exec "$@"
     ''')
     self.run_process([EMCC, 'get.c', '-s', 'ALLOW_MEMORY_GROWTH', arg])
     self.assertContained(f'max: |{expected}|', self.run_js('a.out.js'))
+
+  def test_link_only_setting_warning(self):
+    err = self.run_process([EMCC, '-sALLOW_MEMORY_GROWTH', '-c', test_file('hello_world.c')], stderr=PIPE).stderr
+    self.assertContained("warning: linker setting ignored during compilation: 'ALLOW_MEMORY_GROWTH' [-Wunused-command-line-argument]", err)
